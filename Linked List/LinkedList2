@@ -1,0 +1,149 @@
+#include <iostream>
+using namespace std;
+
+struct Nodo{
+    int dato;
+    Nodo *siguiente;
+};
+Nodo *primero=NULL;
+
+void insertaNodo(Nodo *&pila,int n);
+
+void insertarNodoSinRef(int n);
+
+//void insertarNodo(Nodo *&,int );
+
+void mostrarNodos(Nodo *&pila);
+
+//void mostrarNodo(Nodo *&);
+
+void eliminarNodo(int);
+
+int main() {
+    /*
+    insertaNodo(primero, 4);
+    insertaNodo(primero, 6);
+    insertaNodo(primero, 5);*/
+    insertarNodoSinRef(8);
+    insertarNodoSinRef(4);
+    insertarNodoSinRef(55);
+    insertarNodoSinRef(43);
+    eliminarNodo(4);
+    eliminarNodo(9);
+    mostrarNodos(primero);
+
+}
+
+/*
+void insertarNodo(Nodo *&primero, int dato){
+    Nodo *nuevoNodo= new Nodo;
+    nuevoNodo->dato=dato;
+    primero=nuevoNodo;
+};*/
+/*
+void mostrarNodo(Nodo *&primero){
+
+    while(primero!=NULL){
+        cout<<primero->next<<endl;
+        primero=primero->next;
+    }
+};*/
+void insertaNodo(Nodo *&pila, int n){
+    Nodo *nuevoNodo=new Nodo();
+    nuevoNodo->dato=n;
+    nuevoNodo->siguiente=pila;
+    pila=nuevoNodo;
+
+}
+
+void insertarNodoSinRef( int n){
+    Nodo *nuevoNodo=new Nodo();
+    nuevoNodo->dato=n;
+
+    nuevoNodo->siguiente=primero;
+    primero=nuevoNodo;
+
+
+}
+void mostrarNodos(Nodo *&pila){
+    while (pila!=NULL)
+    {
+        cout<<pila->dato<<"\n";
+        pila=pila->siguiente;
+    }
+}
+
+void eliminarNodo(int a){
+    Nodo *aux=new Nodo;
+    aux=primero;
+    Nodo *prev=NULL;
+
+    if(aux!=NULL and aux->dato==a) {
+        primero = aux->siguiente;
+        delete aux;
+    }
+    else
+    {
+        while (aux != NULL && aux->dato != a)
+        {
+            prev=aux;
+            aux=aux->siguiente;
+
+        }
+        if(aux==NULL){
+            return;
+        }
+        prev->siguiente=aux->siguiente;
+        delete aux;
+
+    }
+
+};
+/*
+void insertaNodo(Nodo *&pila,int n);
+void quitarNodo(Nodo *&pila,int &n);
+void mostrarNodos(Nodo *&pila);
+int main(){
+    Nodo *pila=NULL;
+    //int numero;
+    insertaNodo(pila,5);
+    insertaNodo(pila,6);
+    insertaNodo(pila,7);
+    int numero,nElementos,elemento;
+    std::cout<<"Humano cunatos elementos deseas insertar: ";
+    std::cin>>nElementos;
+    for (int  i = 0; i < nElementos; i++)
+    {
+        std::cout<<"Elemento "<<i+1<<": ";
+        std::cin>>elemento;
+        insertaNodo(pila,elemento);
+    }
+    std::cout<<"\n";
+    mostrarNodos(pila);
+    while (pila!=NULL)
+    {
+        quitarNodo(pila,numero);
+        if(pila!=NULL){
+            std::cout<<numero<<" , ";
+        }else{
+            std::cout<<numero<<" . \n";
+        }
+    }
+
+    mostrarNodos(pila);
+    system("pause");
+    return 0;
+}
+void quitarNodo(Nodo *&pila,int &n){
+    Nodo *aux=new Nodo;
+    n=aux->dato;
+    pila=aux->siguiente;
+    delete aux;
+}
+void mostrarNodos(Nodo *&pila){
+    while (pila!=NULL)
+    {
+        std::cout<<pila->dato<<"\n";
+        pila=pila->siguiente;
+    }
+}*/
