@@ -20,11 +20,15 @@ struct Nodo{
 
 void cargarventas();
 
+void cargarArray(array <Venta,100>,Venta);
+
 void insertarOrdenado(Nodo *&,Ventas);
 int main() {
     cargarventas();
     FILE * f=fopen("ventas.dat","rb+");
     Nodo *lista=NULL;
+    
+    array <Venta,100> arrayVent;
 
 
 
@@ -35,7 +39,8 @@ int main() {
         b.ventAn=r.ventAn;
         b.idEmp=r.idEmp;
         strcpy(b.sector,r.sector);
-        insertarOrdenado(lista,b);      //DEBO CAMBIAR LA ESTRUCTURA: DEBO CREAR UN ARRAY DONDE IR CARGANDO LOS DATOS
+        
+        //insertarOrdenado(lista,b);      //DEBO CAMBIAR LA ESTRUCTURA: DEBO CREAR UN ARRAY DONDE IR CARGANDO LOS DATOS
                                               // PARA DESPUES CARGARLO EN UNA LISTA.
 
     }
