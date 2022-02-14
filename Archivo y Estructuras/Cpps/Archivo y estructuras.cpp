@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <string.h>
 #include <array>
@@ -20,43 +18,44 @@ struct Nodo{
 
 void cargarventas();
 
-void cargarArray(array <Venta,100>,Venta);
+void cargarArray(Ventas array[10],Ventas,int);
+
+void cargarArrayC(array<Ventas,10>,Ventas,int);
 
 void insertarOrdenado(Nodo *&,Ventas);
+
+void mostrarLista(Nodo *&);
 int main() {
     cargarventas();
     FILE * f=fopen("ventas.dat","rb+");
     Nodo *lista=NULL;
-    
-    array <Venta,100> arrayVent;
+
+    Ventas arrayVent[10]={};
+    std::array<Ventas,10> ventasC;
+
 
 
 
     Ventas r;
     Ventas b;
-
+    int i=0;
     while(fread(&r,sizeof(r),1,f)){
+
         b.ventAn=r.ventAn;
         b.idEmp=r.idEmp;
         strcpy(b.sector,r.sector);
-        
+        ventasC.at(i).ventAn=b.ventAn;
+        ventasC.at(i).idEmp=b.idEmp;
+        i++;
         //insertarOrdenado(lista,b);      //DEBO CAMBIAR LA ESTRUCTURA: DEBO CREAR UN ARRAY DONDE IR CARGANDO LOS DATOS
                                               // PARA DESPUES CARGARLO EN UNA LISTA.
 
+    };
+
+    for(int z=0;z<3;z++){
+        insertarOrdenado(lista,ventasC.at(z));
     }
-    /*
-    cout<<"Sector: "<<b.sector<<endl;
-    cout<<"Id: "<<b.idEmp<<endl;
-    cout<<"Venta anual: "<<b.ventAn<<endl;*/
-    /*Nodo *listaAux=lista;
-    while(listaAux!=NULL){
-        cout<<listaAux->venta.ventAn<<endl;
-        cout<<listaAux->venta.idEmp<<endl;
-        cout<<listaAux->venta.sector<<endl;
-        listaAux=listaAux->next;
-    }*/
-
-
+    mostrarLista(lista);
 
 }
 
@@ -70,16 +69,16 @@ void cargarventas() {
     fwrite(&p,sizeof(p),1,f);
 
     Ventas q;
-    q.ventAn =3000;
+    q.ventAn =35000;
     strcpy(q.sector,"c");
-    q.idEmp=1506;
+    q.idEmp=1507;
 
     fwrite(&q,sizeof(q),1,f);
 
     Ventas d;
-    d.ventAn =3000;
+    d.ventAn =3050;
     strcpy(d.sector,"a");
-    d.idEmp=1506;
+    d.idEmp=1508;
 
     fwrite(&d,sizeof(d),1,f);
     fclose(f);
@@ -92,19 +91,38 @@ void insertarOrdenado(Nodo *&lista, Ventas venta){
     nuevoNodo->next=NULL;
     strcpy(nuevoNodo->venta.sector,nuevoNodo->venta.sector);
     //if(venta.sector=="c" or venta.sector=="C"){
-    if(lista==NULL or venta.ventAn<lista->venta.ventAn){
+    if(lista==NULL or venta.ventAn>lista->venta.ventAn){
         nuevoNodo->next=lista;
         lista=nuevoNodo;
     }
     else{
         Nodo *q=lista;
-        while(q->next!=NULL and q->next->venta.ventAn<venta.ventAn){
+        while(q->next!=NULL and q->next->venta.ventAn>venta.ventAn){
             q=q->next;
         }
         nuevoNodo->next=q->next;
         q->next=nuevoNodo;
 
     }
-    //}
+}
 
+void cargarArray(Ventas array[10], Ventas ventasAn, int i){
+    array[i].ventAn=ventasAn.ventAn;
+    array[i].idEmp=ventasAn.idEmp;
+};
+
+void cargarArrayC(array<Ventas,10> arrayC, Ventas ventasAn, int i){
+    arrayC.at(i).ventAn=ventasAn.ventAn;
+    cout<<arrayC.at(i).ventAn;
+    arrayC.at(i).idEmp=ventasAn.idEmp;
+    cout<<arrayC.at(i).idEmp;
+};
+
+void mostrarLista(Nodo *&lista){
+    Nodo *&aux=lista;
+    while(aux!=NULL){
+        cout<<"Venta: "<<aux->venta.ventAn<<endl;
+        cout<<"Id: "<<aux->venta.idEmp<<endl;
+        aux=aux->next;
+    }
 }
